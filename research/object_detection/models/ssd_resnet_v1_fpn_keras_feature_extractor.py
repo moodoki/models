@@ -142,7 +142,9 @@ class SSDResNetV1FpnKerasFeatureExtractor(
         min_depth=self._min_depth,
         classes=None,
         weights=None,
-        include_top=False)
+        include_top=False,
+        input_shape=input_shape[1:]
+    )
     output_layers = _RESNET_MODEL_OUTPUT_LAYERS[self._resnet_v1_base_model_name]
     outputs = [full_resnet_v1_model.get_layer(output_layer_name).output
                for output_layer_name in output_layers]

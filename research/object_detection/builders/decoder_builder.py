@@ -23,6 +23,7 @@ from __future__ import division
 from __future__ import print_function
 
 from object_detection.data_decoders import tf_example_decoder
+from object_detection.data_decoders import tf_raw_radar_example_decoder
 from object_detection.data_decoders import tf_sequence_example_decoder
 from object_detection.protos import input_reader_pb2
 
@@ -67,6 +68,23 @@ def build(input_reader_config):
           label_map_proto_file=label_map_proto_file,
           load_context_features=input_reader_config.load_context_features)
       return decoder
+    elif input_type == input_reader_pb2.InputType.Value('TF_RAW_RADAR_EXAMPLE'):
+      decoder = tf_raw_radar_example_decoder.TfRawRadarExampleDecoder(
+          load_instance_masks=input_reader_config.load_instance_masks,
+          load_multiclass_scores=input_reader_config.load_multiclass_scores,
+          load_context_features=input_reader_config.load_context_features,
+          instance_mask_type=input_reader_config.mask_type,
+          label_map_proto_file=label_map_proto_file,
+          use_display_name=input_reader_config.use_display_name,
+          num_additional_channels=input_reader_config.num_additional_channels,
+          num_keypoints=input_reader_config.num_keypoints,
+          expand_hierarchy_labels=input_reader_config.expand_labels_hierarchy,
+          load_dense_pose=input_reader_config.load_dense_pose,
+          load_track_id=input_reader_config.load_track_id,
+          shape=(input_reader_config.height, input_reader_config.width, 1)
+      )
+      return decoder
+
     raise ValueError('Unsupported input_type in config.')
 
-  raise ValueError('Unsupported input_reader_config.')
+  raise ValueError(f'Unsupported input_reader_config. {input_reader_config.WhichOneof("input_reader")}')

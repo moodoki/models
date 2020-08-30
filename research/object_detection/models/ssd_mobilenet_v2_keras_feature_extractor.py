@@ -110,7 +110,9 @@ class SSDMobileNetV2KerasFeatureExtractor(
         use_explicit_padding=self._use_explicit_padding,
         alpha=self._depth_multiplier,
         min_depth=self._min_depth,
-        include_top=False)
+        include_top=False,
+        input_shape=input_shape[1:]
+    )
     conv2d_11_pointwise = full_mobilenet_v2.get_layer(
         name='block_13_expand_relu').output
     conv2d_13_pointwise = full_mobilenet_v2.get_layer(name='out_relu').output

@@ -138,7 +138,9 @@ class SSDMobileNetV1FpnKerasFeatureExtractor(
         alpha=self._depth_multiplier,
         min_depth=self._min_depth,
         conv_defs=self._conv_defs,
-        include_top=False)
+        include_top=False,
+        input_shape=input_shape[1:]
+    )
     conv2d_3_pointwise = full_mobilenet_v1.get_layer(
         name='conv_pw_3_relu').output
     conv2d_5_pointwise = full_mobilenet_v1.get_layer(
